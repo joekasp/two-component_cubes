@@ -1,4 +1,4 @@
-from __future__ import print_function
+#from __future__ import print_function
 import numpy as np
 import sys
 
@@ -26,7 +26,7 @@ class Cube:
         self.vspin   = vspin
         with open(filename,'r') as f:
            # Save comments (first two lines)
-           for i in xrange(2):
+           for i in range(2):
                self.comment.append(f.readline().strip('\n')) 
            # Grab number of atoms and the cubefile origin
            line = f.readline().split()
@@ -43,7 +43,7 @@ class Cube:
                                                     float(line[2]),
                                                     float(line[3])])
            # Grab atoms and coordinates 
-           for atom in xrange(self.natoms):
+           for atom in range(self.natoms):
                line = f.readline().split()
                self.atoms.append([line[0],line[1],line[2],line[3],line[4]])
            # Skip next line ... not sure what it means in new cubegen
@@ -63,28 +63,28 @@ class Cube:
                    for idx,v in enumerate(vals):
                        i = int(np.floor(idx/4))
                        if idx % 4 == 0:
-                           self.N[i/(self.ny*self.nz),
-                                     (i/self.nz)%self.ny,
-                                      i%self.nz] = float(v)
+                           self.N[int(i/(self.ny*self.nz)),
+                                     int((i/self.nz) % self.ny),
+                                     int(i % self.nz)] = float(v)
                        elif idx % 4 == 1:
-                           self.Mx[i/(self.ny*self.nz),
-                                     (i/self.nz)%self.ny,
-                                      i%self.nz] = float(v)
+                           self.Mx[int(i/(self.ny*self.nz)),
+                                     int((i/self.nz) % self.ny),
+                                     int(i % self.nz)] = float(v)
                        elif idx % 4 == 2:
-                           self.My[i/(self.ny*self.nz),
-                                     (i/self.nz)%self.ny,
-                                      i%self.nz] = float(v)
+                           self.My[int(i/(self.ny*self.nz)),
+                                     int((i/self.nz) % self.ny),
+                                     int(i % self.nz)] = float(v)
                        elif idx % 4 == 3:
-                           self.Mz[i/(self.ny*self.nz),
-                                     (i/self.nz)%self.ny,
-                                      i%self.nz] = float(v)
+                           self.Mz[int(i/(self.ny*self.nz)),
+                                     int((i/self.nz) % self.ny),
+                                     int(i % self.nz)] = float(v)
                
            elif len(vals) == self.nx*self.ny*self.nz:
                self.volRA = np.zeros((self.nx,self.ny,self.nz))
                for idx,v in enumerate(vals):
-                   self.volRA[idx/(self.ny*self.nz),
-                           (idx/self.nz)%self.ny,
-                            idx%self.nz] = float(v)
+                   self.volRA[int(idx/(self.ny*self.nz)),
+                           int((idx/self.nz) % self.ny),
+                           int(idx % self.nz)] = float(v)
                self.volNorm = np.sqrt(self.volRA**2)
            elif len(vals) == 2*self.nx*self.ny*self.nz:
                # This is the complex one component case
@@ -93,13 +93,13 @@ class Cube:
                for idx,v in enumerate(vals):
                    i = int(np.floor(idx/2))
                    if idx % 2 == 0:
-                       self.volRA[i/(self.ny*self.nz),
-                                 (i/self.nz)%self.ny,
-                                  i%self.nz] = float(v)
+                       self.volRA[int(i/(self.ny*self.nz)),
+                                 int((i/self.nz) % self.ny),
+                                 int(i % self.nz)] = float(v)
                    elif idx % 2 == 1:
-                       self.volIA[i/(self.ny*self.nz),
-                                 (i/self.nz)%self.ny,
-                                  i%self.nz] = float(v)
+                       self.volIA[int(i/(self.ny*self.nz)),
+                                 int((i/self.nz) % self.ny),
+                                 int(i % self.nz)] = float(v)
                self.volNorm = np.sqrt(self.volRA**2 +
                                       self.volIA**2 )
            elif len(vals) == 4*self.nx*self.ny*self.nz:
@@ -113,28 +113,28 @@ class Cube:
                for idx,v in enumerate(vals):
                    i = int(np.floor(idx/4))
                    if idx % 4 == 0:
-                       self.volRA[i/(self.ny*self.nz),
-                                 (i/self.nz)%self.ny,
-                                  i%self.nz] = float(v)
+                       self.volRA[int(i/(self.ny*self.nz)),
+                                 int((i/self.nz) % self.ny),
+                                 int(i % self.nz)] = float(v)
                    elif idx % 4 == 1:
-                       self.volIA[i/(self.ny*self.nz),
-                                 (i/self.nz)%self.ny,
-                                  i%self.nz] = float(v)
+                       self.volIA[int(i/(self.ny*self.nz)),
+                                 int((i/self.nz) % self.ny),
+                                 int(i % self.nz)] = float(v)
                    elif idx % 4 == 2:
-                       self.volRB[i/(self.ny*self.nz),
-                                 (i/self.nz)%self.ny,
-                                  i%self.nz] = float(v)
+                       self.volRB[int(i/(self.ny*self.nz)),
+                                 int((i/self.nz) % self.ny),
+                                 int(i % self.nz)] = float(v)
                    elif idx % 4 == 3:
-                       self.volIB[i/(self.ny*self.nz),
-                                 (i/self.nz)%self.ny,
-                                  i%self.nz] = float(v)
+                       self.volIB[int(i/(self.ny*self.nz)),
+                                 int((i/self.nz) % self.ny),
+                                 int(i % self.nz)] = float(v)
                self.volNorm = np.sqrt(self.volRA**2 +
                                       self.volRB**2 +
                                       self.volIA**2 +
                                       self.volIB**2) 
        
            else:
-               raise NameError, "cube file not valid"
+               raise NameError("cube file not valid")
 
     def plot_property(self,prop=None):
         ''' This function will plot vector fields for you to enjoy. Right now,
@@ -249,9 +249,9 @@ class Cube:
                     atom[4]), file=f)
             if self.sign < 0:
                 print("    1    "+str(self.natoms),file=f)
-            for ix in xrange(self.nx):
-                for iy in xrange(self.ny):
-                    for iz in xrange(self.nz):
+            for ix in range(self.nx):
+                for iy in range(self.ny):
+                    for iz in range(self.nz):
                         print(" %.5e " % volume[ix,iy,iz],end="",file=f)
                         if (iz % 6 == 5):
                             print('',file=f)
@@ -261,17 +261,19 @@ class Cube:
 if __name__ == '__main__':
     # Basic usage example: dump complex GHF MO data to separate real and 
     # imaginary, alpha and beta, cubes for visualizing each separately.
-    atom = Cube('twoc.cube')
-    atom.write_out('twoc_ra.cube',data='RA')
-    atom.write_out('twoc_ia.cube',data='IA')
-    atom.write_out('twoc_rb.cube',data='RB')
-    atom.write_out('twoc_ib.cube',data='IB')
+    PATH = 'examples/'
+    NAME = 'zn_MO5'
+    atom = Cube(PATH+NAME+'.cube')
+    atom.write_out(PATH+NAME+'_ra.cube',data='RA')
+    atom.write_out(PATH+NAME+'_ia.cube',data='IA')
+    atom.write_out(PATH+NAME+'_rb.cube',data='RB')
+    atom.write_out(PATH+NAME+'_ib.cube',data='IB')
     
-    # GHF cubegen w/ VSPIN example to plot and dump magnetization densities
-    magnetization = Cube('ghf-vspin-example.cube',vspin=True)
-    magnetization.plot_property('MAG')
-    magnetization.write_out('Mz.cube',data='Mz')
-    # electrostatic potential example
-    ESP = Cube('esp-example.cube')
-    ESP.plot_property('ESP')
+#    # GHF cubegen w/ VSPIN example to plot and dump magnetization densities
+#    magnetization = Cube(PATH+'ghf-vspin-example.cube',vspin=True)
+#    magnetization.plot_property('MAG')
+#    magnetization.write_out('Mz.cube',data='Mz')
+#    # electrostatic potential example
+#    ESP = Cube(PATH+'esp-example.cube')
+#    ESP.plot_property('ESP')
     
